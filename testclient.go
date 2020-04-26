@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	//apiv1 "k8s.io/api/core/v1"
@@ -20,9 +22,15 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	_, err = kubernetes.NewForConfig(config)
+	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	fmt.Println("Connect kubernetes Successful！！！")
+
+	corev1 := clientset.CoreV1()
+	cont := context.Background()
+	pods,err :=corev1.Pods("default").List(cont,metav1.ListOptions{})
+	fmt.Printf("\nThere are %d pods in namespaces default", len(pods.Items))
+
 }

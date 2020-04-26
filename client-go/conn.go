@@ -7,17 +7,20 @@ import (
 )
 
 
-var kubeconfig *string
+var clientset *kubernetes.Clientset
 
 func init(){
 
-	config,err  := clientcmd.BuildConfigFromFlags("10.23.5.224","./config")
-	if err!=nil{
-		fmt.Println("config failed")
+	config,err := clientcmd.BuildConfigFromFlags("","./config")
+	if err != nil {
+		fmt.Println(err.Error())
 	}
-	clientconn,err := kubernetes.NewForConfig(config)
-	if err!=nil{
-		fmt.Println("clientconn failed")
+	clientset,err = kubernetes.NewForConfig(config)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
+}
 
+func ClientConn() *kubernetes.Clientset{
+	return clientset
 }
