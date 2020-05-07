@@ -32,5 +32,4 @@ func main() {
 	cont := context.Background()
 	pods,err :=corev1.Pods("default").List(cont,metav1.ListOptions{})
 	fmt.Printf("\nThere are %d pods in namespaces default", len(pods.Items))
-
 }
