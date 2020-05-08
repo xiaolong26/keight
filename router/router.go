@@ -6,8 +6,14 @@ import (
 )
 
 func SetRouter(r *gin.Engine) *gin.Engine{
-	r.GET("/",handle.Test)
+
+
+	r.Static("/static","./static")
 	r.GET("/pod",handle.Getpods)
-	r.POST("/userlogin",handle.Userlogup)
+	r.POST("/user/logup",handle.Userlogup)
+	r.GET("/user/logup",handle.Userdologup)
+	r.GET("/user/login",handle.Userdologin)
+	r.POST("/usr/login",handle.Userlogin)
+	r.POST("/usr/auth",handle.CheckToken)
 	return r
 }

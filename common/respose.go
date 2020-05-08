@@ -1,5 +1,7 @@
 package common
 
+import "time"
+
 type ResponseData struct {
 	Data string 	`json:"data"`
 	Code int 		`json:"code"`
@@ -14,4 +16,6 @@ type User struct {
 
 const (
 	Dbserver = "xue:123456@tcp(127.0.0.1:3306)/keight?charset=utf8"
+	Signing  = "keight"
+	ExpiresAt      = 30 * 24 * time.Hour
 )
