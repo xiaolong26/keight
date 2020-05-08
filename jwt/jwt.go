@@ -2,7 +2,10 @@ package jwt
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"k8s/common"
+	"net/http"
+	"time"
 )
 
 
@@ -42,4 +45,31 @@ func ParseToken(token string)(*Cliams,error)  {
 		}
 	}
 	return nil,err
+}
+
+func JWY()gin.HandlerFunc{
+	return func(c *gin.Context){
+		var  code int
+		code=200
+		token:=c.Request.FormValue("token")
+		if token==""{
+			code=400
+		}else{
+			claims,err:=ParseToken(token)
+			if err!=nil{
+				code=300
+			}else if time.Now().Unix()>claims.ExpiresAt{
+				code=300
+			}
+		}
+		//如果token验证不通过，直接终止程序，c.Abort()
+		if code!=200{
+			// 返回错误信息
+			c.JSON(http.StatusUnauthorized,"错误")
+			//终止程序
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
 }
