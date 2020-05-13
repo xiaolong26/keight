@@ -58,7 +58,7 @@ func JWY()gin.HandlerFunc{
 			claims,err:=ParseToken(token)
 			if err!=nil{
 				code=300
-			}else if time.Now().Unix()>claims.ExpiresAt{
+			}else if time.Now().Unix()>claims.ExpiresAt{  //判断token是否过期
 				code=300
 			}
 		}

@@ -9,7 +9,7 @@ import (
 func SetRouter(r *gin.Engine) *gin.Engine{
 
 	//r.Static("/static","./static")
-	r.GET("/pod",handle.Getpods)
+	//r.GET("/pod",handle.Getpods)
 	r.POST("/user/logup",handle.Userlogup)
 	r.GET("/user/logup",handle.Userdologup)
 	r.GET("/user/login",handle.Userdologin)
@@ -19,6 +19,8 @@ func SetRouter(r *gin.Engine) *gin.Engine{
 	auth := r.Group("/a",jwt.JWY())
 	{
 		auth.Static("/static","./static")
+		//auth.GET("/podlist",handle.Getpods)
+		auth.POST("/pod",handle.Getpods)
 	}
 	return r
 }

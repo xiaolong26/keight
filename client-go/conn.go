@@ -7,7 +7,7 @@ import (
 )
 
 
-var clientset *kubernetes.Clientset
+var Clientset *kubernetes.Clientset
 
 func init(){
 
@@ -15,12 +15,12 @@ func init(){
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	clientset,err = kubernetes.NewForConfig(config)
+	Clientset,err = kubernetes.NewForConfig(config)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 }
 
-func ClientConn() *kubernetes.Clientset{
+/*func ClientConn() *kubernetes.Clientset{
 	return clientset
-}
+}*/

@@ -1,19 +1,28 @@
 package handle
 
 import (
-	"context"
 	"github.com/gin-gonic/gin"
-	client_go "k8s/client-go"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s/common"
+	"k8s/resource"
 )
 
+
 func Getpods(c *gin.Context){
-	clientset := client_go.ClientConn()
-	corev1 := clientset.CoreV1()
-	cont := context.Background()
-	pods,err :=corev1.Pods("default").List(cont,metav1.ListOptions{})
-	if err!= nil{
-		c.JSON(400,"pod错误")
+	res := HandlePods(c,common.Get)
+	c.JSON(res.Code,res)
+}
+
+func HandlePods(c *gin.Context,action common.Action)common.ResponseData{
+	r := resource.PodResource{
+		Name : c.Request.FormValue("podname"),
+		Namespace:c.Request.FormValue("namespace"),
 	}
-	c.JSON(200,pods.Items)
+	res := common.ResponseData{}
+	switch action {
+	case common.Get:
+		msg,err := r.Get()
+		common.HandlerResponse(msg,err)
+	}
+	c.JSON(res.Code,res)
+	return res
 }

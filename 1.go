@@ -17,13 +17,11 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	// create the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
-
 	//创建命名空间//
 	a := createns(clientset,"client-go")
 	if a != 0 {
