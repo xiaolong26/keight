@@ -16,13 +16,13 @@ func HandlerResponse(result interface{},err error)*ResponseData{
 	if err!=nil{
 		res = &ResponseData{
 			Data: "",
-			Code: http.StatusOK,
+			Code: http.StatusInternalServerError,
 			Msg:  result,
 		}
 	}else  {
 		res = &ResponseData{
 			Data: "",
-			Code: http.StatusInternalServerError,
+			Code: http.StatusOK,
 			Msg:  result,
 		}
 	}

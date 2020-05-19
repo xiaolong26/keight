@@ -3,6 +3,7 @@ package handle
 import (
 	"github.com/gin-gonic/gin"
 	"k8s/common"
+	"k8s/common/handle"
 	"k8s/resource"
 )
 
@@ -12,17 +13,34 @@ func Getpods(c *gin.Context){
 	c.JSON(res.Code,res)
 }
 
-func HandlePods(c *gin.Context,action common.Action)common.ResponseData{
+func Deletepods(c *gin.Context){
+	res := HandlePods(c,common.Delete)
+	c.JSON(res.Code,res)
+}
+
+func HandlePods(c *gin.Context,action common.Action)*common.ResponseData{
+	g := handle.GenerateCommonParams(c)
 	r := resource.PodResource{
+		Resource: g,
 		Name : c.Request.FormValue("podname"),
-		Namespace:c.Request.FormValue("namespace"),
 	}
-	res := common.ResponseData{}
+	res := &common.ResponseData{}
 	switch action {
 	case common.Get:
 		msg,err := r.Get()
-		common.HandlerResponse(msg,err)
+		res = common.HandlerResponse(msg,err)
+	case common.Delete:
+		msg  := "delete success"
+		err := r.Delete()
+		if err!=nil{
+			msg = "delete failed"
+		}
+		res = common.HandlerResponse(msg,err)
 	}
-	c.JSON(res.Code,res)
 	return res
+}
+
+func Test(c *gin.Context){
+	test := handle.GenerateCommonParams(c)
+	c.JSON(200,test)
 }
